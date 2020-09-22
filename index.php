@@ -5,8 +5,22 @@ session_start();
 
 include('includes/functions.php');
 
-$password = password_hash("abc123", PASSWORD_DEFAULT);
-echo $password;
+// $password = password_hash("abc123", PASSWORD_DEFAULT);
+// echo $password;
+
+// query & result
+$query = "SELECT * FROM users";
+$result = mysqli_query( $conn, $query );
+
+if( isset($_GET[alert])) {
+    
+    // new user created
+    if( $_GET['alert'] == 'success' ) {
+        $alertMessage = "<div class='alert alert-success'>New User Created! Please Login <a class='close' data-dismiss='alert'>&times;</a></div>";
+    }
+}
+
+
 
 // if login form was submitted
 if( isset( $_POST['login'] ) ) {
@@ -18,8 +32,8 @@ if( isset( $_POST['login'] ) ) {
     
     // connect to database
     include('includes/connection.php');
-    
-    // create query
+
+       // create query
     $query = "SELECT name, password FROM users WHERE email='$formEmail'";
     
     // store the result
@@ -57,6 +71,8 @@ if( isset( $_POST['login'] ) ) {
     
 }
 
+
+
 // close mysql connection
 mysqli_close($conn);
 
@@ -68,6 +84,9 @@ include('includes/header.php');
 ?>
 
 <h1>Client Address Book</h1>
+
+<?php echo $alertMessage; ?>
+
 <p class="lead">Log in to your account.</p>
 
 <?php echo $loginError; ?>
@@ -82,6 +101,8 @@ include('includes/header.php');
         <input type="password" class="form-control" id="login-password" placeholder="password" name="password">
     </div>
     <button type="submit" class="btn btn-primary" name="login">Login</button>
+    <a href="signup.php" type="button" class="btn btn-danger" name="signup">Sign Up</a>
+           
 </form>
 
 <?php
