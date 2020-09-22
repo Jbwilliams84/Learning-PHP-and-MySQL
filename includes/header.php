@@ -1,3 +1,25 @@
+<?php
+session_start();
+
+include('includes/connection.php');
+
+$query = "SELECT * FROM users";
+$result = mysqli_query( $conn, $query );
+
+if( mysqli_num_rows($result) > 0 ) {
+        
+    // we have data!
+    // output the data
+    
+    while( $row = mysqli_fetch_assoc($result) ) {
+        $name = $row['name'];
+    }
+} 
+
+mysqli_close($conn);
+
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -47,7 +69,7 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <p class="navbar-text">Aloha, Brian!</p>
+                    <p class="navbar-text"><?php echo $name ?></p>
 
                     <li><a href="logout.php">Log out</a></li>
                 </ul>
